@@ -98,7 +98,7 @@ citisample %>%
 ### BikeID
 ```{r}
 citisample %>%
-  group_by(route) %>%
+  group_by(bikeid) %>%
   summarize(count=n()) %>%
   arrange(desc(count)) %>%
   top_n(n=10) %>% kable(format="markdown")
