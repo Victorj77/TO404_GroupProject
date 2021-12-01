@@ -82,12 +82,18 @@ citiday <- citisample %>%
 
 combined_gender <- merge(citiday, weather, by.x = "day", by.y = "DATE")
 ```
-
+## Citi Bike Data Context 
 ```{r}
-ggplot(citisample, aes(x=month)) + geom_bar() +labs( title = "Amount of Rides in 2019 per month" )
+ggplot(citisample, aes(x=month)) + geom_bar() +labs( title = "Amount of Rides in 2019 per month")
 ```
 
+```{r}
+ggplot(citisample, aes(x=month, fill = gender)) + geom_bar(position=position_dodge()) +labs( title = "Amount of Rides in 2019 by gender")
+```
 
+```{r}
+ggplot(citisample, aes(x=usertype)) + geom_bar(position=position_dodge()) +labs( title = "Subscriber v. Customer amount of rides in 2019")
+```
 
 
 
