@@ -7,8 +7,75 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(cache = TRUE)
+```
+```{r}
+library(tidyverse)
+library(gganimate)
+library(geosphere)
+library(lubridate)
+library(ggplot2)
 ```
 
-## R Markdown
+
+## Data frame setup 
+### Data Cleaning 
+```{r}
+#Start New RMD File for Analysis
+#Reading the new csv file 
+citisample <- read.csv("citibike.csv")
+citisample$X <- NULL
+citisample$start.station.id <- as.factor(citisample$start.station.id)
+citisample$end.station.id <- as.factor(citisample$end.station.id)
+citisample$bikeid <- as.factor(citisample$bikeid)
+citisample$usertype <- as.factor(citisample$usertype)
+citisample$gender <- as.factor(citisample$gender)
+# Fix gender
+citisample$gender <- ifelse(citisample$gender == 1, "male", ifelse(citisample$gender == 2, "female", "unknown"))
+citisample$gender <- as.factor(citisample$gender)
+# Create a column for approximate age
+citisample$age <- 2021 - citisample$birth.year
+```
+
+
+```{r}
+#--OPTION TWO--
+citisample$starttime <- as.POSIXct(strptime(citisample$starttime, "%Y-%m-%d %H:%M:%S"))
+citisample$stoptime <- as.POSIXct(strptime(citisample$stoptime, "%Y-%m-%d %H:%M:%S"))
+
+citisample$starthour <- hour(citisample$starttime)
+citisample$day <- as.Date(citisample$starttime)
+
+citisample$month <- as.factor(month(citisample$day))
+
+citisample$numWeekday <- wday(citisample$starttime)
+citisample$dayid <- as.factor(ifelse(citisample$numWeekday < 6, "Weekday", "Weekend"))
+citisample$weekNum <- as.numeric(strftime(citisample$starttime, format = "%V"))
+
+citisample$distmeters <- distHaversine(cbind(citisample$start.station.latitude, citisample$start.station.longitude), cbind(citisample$end.station.latitude, citisample$end.station.longitude))
+
+citisample$speed <- citisample$distmeters / citisample$tripduration
+str(citisample)
+```
+
+```{r}
+#Merging Datasets
+weather <- read.csv("NYCWeather2019.csv")
+weather$STATION <- NULL
+weather$NAME <- NULL
+weather$DATE <- as.Date(weather$DATE, format= "%m/%d/%Y")
+weather$TAVG <- (weather$TMAX + weather$TMIN)/2
+
+citiday <- citisample %>%
+  group_by(day, gender, dayid) %>%
+  summarize(count = n(),
+            dist = mean(distmeters, na.rm = TRUE),
+            dur = mean(tripduration, na.rm = TRUE),
+            speed = dist/dur)
+
+combined_gender <- merge(citiday, weather, by.x = "day", by.y = "DATE")
+```
+
+
 
 
