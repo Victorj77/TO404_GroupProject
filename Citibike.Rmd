@@ -83,6 +83,14 @@ citiday <- citisample %>%
 combined_gender <- merge(citiday, weather, by.x = "day", by.y = "DATE")
 ```
 
+```{r}
+ggplot(citisample, aes(x=month)) + geom_bar() +labs( title = "Amount of Rides in 2019 per month" )
+```
+
+
+
+
+
 ## Assymetric Traffic 
 ```{r}
 citisample$route <- paste(citisample$start.station.name,citisample$end.station.name,sep=" -> ")
