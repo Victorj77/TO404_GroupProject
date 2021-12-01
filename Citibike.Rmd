@@ -2,7 +2,13 @@
 title: "Citibike"
 author: "Victor J"
 date: "11/30/2021"
-output: html_document
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    codefolding: hide
+    
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -39,9 +45,8 @@ citisample$gender <- as.factor(citisample$gender)
 citisample$age <- 2021 - citisample$birth.year
 ```
 
-
+### Data Cleaning Continued
 ```{r}
-#--OPTION TWO--
 citisample$starttime <- as.POSIXct(strptime(citisample$starttime, "%Y-%m-%d %H:%M:%S"))
 citisample$stoptime <- as.POSIXct(strptime(citisample$stoptime, "%Y-%m-%d %H:%M:%S"))
 
@@ -59,7 +64,7 @@ citisample$distmeters <- distHaversine(cbind(citisample$start.station.latitude, 
 citisample$speed <- citisample$distmeters / citisample$tripduration
 str(citisample)
 ```
-
+### Merging NYC Weather Data
 ```{r}
 #Merging Datasets
 weather <- read.csv("NYCWeather2019.csv")
@@ -78,11 +83,15 @@ citiday <- citisample %>%
 combined_gender <- merge(citiday, weather, by.x = "day", by.y = "DATE")
 ```
 
-
+## Assymetric Traffic 
 ```{r}
 citisample$route <- paste(citisample$start.station.name,citisample$end.station.name,sep=" -> ")
 
-citisample %>% group_by(route) %>% summarize(count=n()) %>% arrange(desc(count)) %>% top_n(n=10) %>% kable(format="markdown")
+citisample %>% 
+  group_by(route) %>% 
+  summarize(count=n()) %>% 
+  arrange(desc(count)) %>% 
+  top_n(n=10) %>% kable(format="markdown")
 ```
 
 
