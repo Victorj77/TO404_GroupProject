@@ -95,4 +95,13 @@ citisample %>%
 ```
 
 
-
+### Does the ridership speed differ between months? 
+```{r}
+citisample %>%
+  group_by(month) %>%
+  summarize(count = n(),
+            dist = mean(distmeters, na.rm = TRUE),
+            dur = mean(tripduration, na.rm = TRUE),
+            speed = dist/dur) %>%
+  ggplot(aes(x=month, y = speed, fill = count)) + geom_col() +labs(y="Speed (Meters per Second)", title = "Avg Speed each Month" )
+```
