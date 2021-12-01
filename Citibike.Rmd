@@ -110,7 +110,7 @@ citisample %>%
 ## Weather 
 
 ```{r}
-ggplot(combined_gender, aes(x = TAVG, y = dist)) + geom_point(size = 2, alpha = 0.5, color = "yellowgreen") + geom_smooth(color = "darkgreen") + ylim(0,3000)
+ggplot(combined_gender, aes(x = TAVG, y = dist)) + geom_point(size = 2, alpha = 0.5, color = "yellowgreen") + geom_smooth(color = "darkgreen") + ylim(0,3000) 
 ```
 
 ### Does the ridership speed differ between months? 
@@ -121,5 +121,5 @@ citisample %>%
             dist = mean(distmeters, na.rm = TRUE),
             dur = mean(tripduration, na.rm = TRUE),
             speed = dist/dur) %>%
-  ggplot(aes(x=month, y = speed, fill = count)) + geom_col() +labs(y="Speed (Meters per Second)", title = "Avg Speed each Month" )
+  ggplot(aes(x=month, y = dist, fill = count)) + geom_col() +labs(y="Distance", title = "Avg Distance each Month" )
 ```
