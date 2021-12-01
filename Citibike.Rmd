@@ -113,3 +113,10 @@ citisample %>%
             speed = dist/dur) %>%
   ggplot(aes(x=month, y = speed, fill = count)) + geom_col() +labs(y="Speed (Meters per Second)", title = "Avg Speed each Month" )
 ```
+## Weather 
+
+```{r}
+ggplot(combined_gender, aes(x = TAVG, y = distmeters)) + geom_point(size = 2, alpha = 0.5, color = "yellowgreen") + geom_smooth(color = "darkgreen") + facet_wrap( ~ gender) + ylim(0,3000)
+```
+
+
