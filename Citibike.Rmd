@@ -103,6 +103,7 @@ citisample %>%
   top_n(n=10) %>% kable(format="markdown")
 ```
 
+
 ### Does the ridership speed differ between months? 
 ```{r}
 citisample %>%
