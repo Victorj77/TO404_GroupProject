@@ -94,6 +94,14 @@ citisample %>%
   top_n(n=10) %>% kable(format="markdown")
 ```
 
+### BikeID
+```{r}
+citisample %>%
+  group_by(route) %>%
+  summarize(count=n()) %>%
+  arrange(desc(count)) %>%
+  top_n(n=10) %>% kable(format="markdown")
+```
 
 ### Does the ridership speed differ between months? 
 ```{r}
