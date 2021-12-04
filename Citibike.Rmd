@@ -51,14 +51,13 @@ citisample$starttime <- as.POSIXct(strptime(citisample$starttime, "%Y-%m-%d %H:%
 citisample$stoptime <- as.POSIXct(strptime(citisample$stoptime, "%Y-%m-%d %H:%M:%S"))
 
 citisample$starthour <- hour(citisample$starttime)
-citisample$day <- as.Date(citisample$starttime)
+citisample$day <- date(citisample$starttime)
 
 citisample$month <- as.factor(month(citisample$day))
 
 citisample$numWeekday <- wday(citisample$starttime)
 citisample$dayid <- as.factor(ifelse(citisample$numWeekday < 6, "Weekday", "Weekend"))
-citisample$weekNum <- as.numeric(strftime(citisample$starttime, format = "%V"))
-
+citisample$weekNum <- week(citisample$starttime)
 citisample$distmeters <- distHaversine(cbind(citisample$start.station.latitude, citisample$start.station.longitude), cbind(citisample$end.station.latitude, citisample$end.station.longitude))
 
 citisample$speed <- citisample$distmeters / citisample$tripduration
