@@ -23,6 +23,7 @@ library(lubridate)
 library(ggplot2)
 library(dplyr)
 library(knitr)
+library(leaflet)
 ```
 
 
@@ -106,6 +107,69 @@ citisample %>%
   arrange(desc(count)) %>% 
   top_n(n=10) %>% kable(format="markdown")
 ```
+
+
+```{r}
+bike_departures <- group_by(citisample, station = `start.station.name`, latitude = `start.station.latitude`, longitude = `start.station.longitude`)
+
+departure <- summarise(bike_departures, departure_count = n())
+
+
+bike_arrivals <- group_by(citisample, station = `end.station.name`, latitude = `end.station.latitude`, longitude = `end.station.longitude`)
+arrival <- summarise(bike_arrivals, arrival_count = n())
+
+#merge departure and arrival data into one df
+bike_deficit <- merge(departure, arrival, all = TRUE)
+# make NA's = 0
+bike_deficit[is.na(bike_deficit)] <- 0
+
+#make deficit variable: == arrivals - departures
+bike_deficit$deficit <- bike_deficit$departure_count - bike_deficit$arrival_count
+```
+
+```{r}
+#Now we are just going to show the 10% of most problematic stations. That means that we are only going to show the 10% of stations where the difference between arrivals and departures is higher
+bike_deficit10percent<-sort(abs(bike_deficit$deficit),decreasing = TRUE)
+minimum<-bike_deficit10percent[length(bike_deficit10percent)%/%10]
+
+bike_deficit_worststations<-bike_deficit[abs(bike_deficit$deficit)>=minimum,]
+
+
+
+# circle size representative of the magnitude of the deficit or surplus the station has (absolute val of how many more departures it has than arrivals)
+# Red circles have a net deficit, blue circles have a net surplus
+# click on station to see station name and net deficit or surplus
+leaflet(bike_deficit_worststations) %>% 
+  addTiles() %>%
+  addCircleMarkers(lng = bike_deficit_worststations$longitude, lat = bike_deficit_worststations$latitude, 
+                   popup = paste(bike_deficit_worststations$station, "<br>", ifelse(bike_deficit_worststations$deficit>=0, "Bike deficit = ", "Bike surplus = "), 
+                                abs(bike_deficit_worststations$deficit)), 
+                   radius = abs(bike_deficit_worststations$deficit)/5, color = ifelse(bike_deficit_worststations$deficit>0, "red", "green"))
+```
+
+
+```{r}
+bike_deficit_10<-arrange(bike_deficit, (deficit))[1:10,]
+
+str(bike_deficit_10)
+
+leaflet(bike_deficit_10) %>% 
+  addTiles() %>%
+  addMarkers(lng = ~longitude, lat = ~latitude, label=paste(bike_deficit_10$station,bike_deficit_10$deficit))
+
+
+bike_surplus_10<-arrange(bike_deficit, -deficit)[1:10,]
+
+str(bike_surplus_10)
+
+leaflet(bike_surplus_10) %>% 
+  addTiles() %>%
+  addMarkers(lng = ~longitude, lat = ~latitude, label=paste(bike_surplus_10$station,bike_surplus_10$deficit))
+
+```
+
+
+
 
 ## Bike Usage 
 ### BikeID
