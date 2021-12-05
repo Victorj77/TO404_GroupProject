@@ -198,8 +198,10 @@ str(combined_gender)
 combined_gender %>%
   group_by(PRCP) %>%
   summarize(count = n(),
+            dist = mean(distmeters, na.rm = TRUE),
+            avgprcp = mean(PRCP, na.rm = TRUE),
             speed = dist/dur) %>%
-  ggplot(aes(x = PRCP,y = count)) + geom_point() + ylim(0,100) + geom_smooth()
+  ggplot(aes(x = PRCP,y = dist)) + geom_point() + geom_smooth()
 
 ```
 
