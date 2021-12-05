@@ -182,11 +182,6 @@ topbikes <- citisample %>%
 ```
 
 
-```{r}
-#ggplot(citisample, aes(topbikes)) + geom_bar()
-```
-
-
 ## Weather 
 
 ```{r}
