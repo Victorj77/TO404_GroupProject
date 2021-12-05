@@ -194,6 +194,8 @@ citisample %>% ggplot(aes(x=starthour,group=usertype,fill=usertype)) + geom_dens
 ggplot(combined_gender, aes(x = TAVG, y = dist)) + geom_point(size = 2, alpha = 0.5, color = "yellowgreen") + geom_smooth(color = "darkgreen") + ylim(0,3000) 
 ```
 
+
+### How does the amount of precipitation affect the distance rode?
 ```{r}
 str(combined_gender)
 combined_gender %>%
@@ -205,6 +207,18 @@ combined_gender %>%
   ggplot(aes(x = PRCP,y = dist)) + geom_point() + geom_smooth()
 
 ```
+
+### Relationship between average temperature and distance
+```{r}
+combined_gender %>%
+  group_by(TAVG) %>%
+  summarize(count = n(),
+            dist = mean(dist, na.rm = TRUE),
+            avgprcp = mean(PRCP, na.rm = TRUE),
+            speed = dist/dur) %>%
+  ggplot(aes(x = TAVG,y = dist)) + geom_point() + geom_smooth()
+```
+
 
 
 ### Does the ridership speed differ between months? 
