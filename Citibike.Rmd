@@ -179,6 +179,7 @@ topbikes <- citisample %>%
   summarize(count=n()) %>%
   arrange(desc(count)) %>%
   top_n(n=10) %>% kable(format="markdown")
+topbikes
 ```
 
 
