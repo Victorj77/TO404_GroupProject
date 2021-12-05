@@ -61,6 +61,16 @@ citisample$dayid <- as.factor(ifelse(citisample$numWeekday < 6, "Weekday", "Week
 citisample$weekNum <- week(citisample$starttime)
 citisample$distmeters <- distHaversine(cbind(citisample$start.station.latitude, citisample$start.station.longitude), cbind(citisample$end.station.latitude, citisample$end.station.longitude))
 
+#rename weekdays
+citisample$numWeekday <- ifelse(citisample$numWeekday==1,"Sunday",citisample$numWeekday)
+citisample$numWeekday <- ifelse(citisample$numWeekday==2,"Monday",citisample$numWeekday)
+citisample$numWeekday <- ifelse(citisample$numWeekday==3,"Tuesday",citisample$numWeekday)
+citisample$numWeekday <- ifelse(citisample$numWeekday==4,"Wednesday",citisample$numWeekday)
+citisample$numWeekday <- ifelse(citisample$numWeekday==5,"Thursday",citisample$numWeekday)
+citisample$numWeekday <- ifelse(citisample$numWeekday==6,"Friday",citisample$numWeekday)
+citisample$numWeekday <- ifelse(citisample$numWeekday==7,"Saturday",citisample$numWeekday)
+citisample$numWeekday <- factor(citisample$numWeekday,levels = c("Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"))
+
 citisample$speed <- citisample$distmeters / citisample$tripduration
 str(citisample)
 ```
@@ -183,9 +193,14 @@ topbikes
 ```
 
 ### How Usertype Affects Ridership
-#time of day distribution by usertype
 ```{r}
+#time of day by usertype
 citisample %>% ggplot(aes(x=starthour,group=usertype,fill=usertype)) + geom_density(alpha=.3) + theme(legend.title=element_blank(),axis.text.y=element_blank())+ggtitle(expression(atop("How Usertype Affects Time of Day Distribution",atop("Customer = 24 hour/7 Day pass  | Subscriber = Annual Pass")))) 
+```
+
+### Hourly Distribution of Rides
+```{r}
+citisample %>% ggplot(aes(x=starthour,fill=factor(numWeekday))) + geom_density(alpha=.2)+facet_wrap(~numWeekday,ncol=2)+theme(legend.position="none",axis.text.y=element_blank(),plot.title=element_text(hjust=.5)) + ggtitle(expression(atop("Hourly Distribution of Rides",atop("Weekday Peaks during Morning Rush (8am-9am) and Afternoon Rush (5pm-6pm)"))))
 ```
 
 ## Weather 
