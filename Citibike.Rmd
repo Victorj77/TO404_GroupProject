@@ -183,7 +183,7 @@ topbikes <- citisample %>%
 
 
 ```{r}
-ggplot(citisample, aes(topbikes)) + geom_bar()
+#ggplot(citisample, aes(topbikes)) + geom_bar()
 ```
 
 
@@ -198,7 +198,7 @@ str(combined_gender)
 combined_gender %>%
   group_by(PRCP) %>%
   summarize(count = n(),
-            dist = mean(distmeters, na.rm = TRUE),
+            dist = mean(dist, na.rm = TRUE),
             avgprcp = mean(PRCP, na.rm = TRUE),
             speed = dist/dur) %>%
   ggplot(aes(x = PRCP,y = dist)) + geom_point() + geom_smooth()
