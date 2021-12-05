@@ -182,6 +182,11 @@ topbikes <- citisample %>%
 topbikes
 ```
 
+### How Usertype Affects Ridership
+#time of day distribution by usertype
+```{r}
+citisample %>% ggplot(aes(x=starthour,group=usertype,fill=usertype)) + geom_density(alpha=.3) + theme(legend.title=element_blank(),axis.text.y=element_blank())+ggtitle(expression(atop("How Usertype Affects Time of Day Distribution",atop("Customer = 24 hour/7 Day pass  | Subscriber = Annual Pass")))) 
+```
 
 ## Weather 
 
