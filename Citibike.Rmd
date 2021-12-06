@@ -198,10 +198,13 @@ topbikes
 citisample %>% ggplot(aes(x=starthour,group=usertype,fill=usertype)) + geom_density(alpha=.3) + theme(legend.title=element_blank(),axis.text.y=element_blank())+ggtitle(expression(atop("How Usertype Affects Time of Day Distribution",atop("Customer = 24 hour/7 Day pass  | Subscriber = Annual Pass")))) 
 ```
 
+Our data shows the different ride patterns between customers and subscribers. Subscribers were more likely to use bikes during rush hour times/used the mode of transportation for work purposes. Regular customers' usage of bikes steadily increased until a peak at 15:00. Perhaps this can be explained by users riding a bike for lunch break or post-lunch slump.
+
 ### Hourly Distribution of Rides
 ```{r}
 citisample %>% ggplot(aes(x=starthour,fill=factor(numWeekday))) + geom_density(alpha=.2)+facet_wrap(~numWeekday,ncol=2)+theme(legend.position="none",axis.text.y=element_blank(),plot.title=element_text(hjust=.5)) + ggtitle(expression(atop("Hourly Distribution of Rides",atop("Weekday Peaks during Morning Rush (8am-9am) and Afternoon Rush (5pm-6pm)"))))
 ```
+We looked at hourly distribution of rides since we believe that it is valuable information for Citibike in the cases they need live data on the conditions of bikes and when they can expect a lot of usage by both subscribers and customers. We observed weekday peeks during Morning Rush (8-9am) and Afternoon Rush (5-6pm)
 
 ## Weather 
 
