@@ -156,7 +156,7 @@ leaflet(bike_deficit_worststations) %>%
                                 abs(bike_deficit_worststations$deficit)), 
                    radius = abs(bike_deficit_worststations$deficit)/5, color = ifelse(bike_deficit_worststations$deficit>0, "red", "green"))
 ```
-
+This map shows the top 10% problemtic stations. 
 
 ```{r}
 bike_deficit_10<-arrange(bike_deficit, (deficit))[1:10,]
