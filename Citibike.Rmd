@@ -115,10 +115,10 @@ citisample %>%
   group_by(route) %>% 
   summarize(count=n()) %>% 
   arrange(desc(count)) %>% 
-  top_n(n=10) %>% kable(format="markdown")
+  top_n(n=5) %>% kable(format="markdown")
 ```
 
-
+This table shows the top 5 most popular routes from our sample 2019 data. Management should consider these routes when allocating bikes across stations. One should expect the ending station to have a surplus of bikes compared to the departing station. Our team will continue to analyze which stations actually have a surplus or deficit. 
 ```{r}
 bike_departures <- group_by(citisample, station = `start.station.name`, latitude = `start.station.latitude`, longitude = `start.station.longitude`)
 
