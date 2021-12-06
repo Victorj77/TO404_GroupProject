@@ -163,9 +163,11 @@ bike_deficit_10<-arrange(bike_deficit, (deficit))[1:10,]
 
 str(bike_deficit_10)
 
+def_icon <- makeIcon("/Applications/Junior/TO_404Group Project/myrepo/red bike.png", iconWidth = 24, iconHeight =32)
+
 leaflet(bike_deficit_10) %>% 
   addTiles() %>%
-  addMarkers(lng = ~longitude, lat = ~latitude, label=paste(bike_deficit_10$station,bike_deficit_10$deficit))
+  addMarkers(lng = ~longitude, lat = ~latitude, label=paste(bike_deficit_10$station,bike_deficit_10$deficit), icon = def_icon)
 
 
 bike_surplus_10<-arrange(bike_deficit, -deficit)[1:10,]
