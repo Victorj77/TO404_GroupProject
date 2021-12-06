@@ -178,7 +178,7 @@ leaflet(bike_surplus_10) %>%
 
 ```
 
-
+This map marks the top 10 stations with either a surplus or deficit. On each marker you can also see the amount for that station. 
 
 ## Bike Usage 
 ### Bike ID
