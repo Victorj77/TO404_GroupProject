@@ -240,7 +240,7 @@ combined_gender %>%
 This graph shows the average distance ridden for each recorded temperature. The ridership tends to ride a longer distance in higher temperatures, with a pretty clear positive correlation shown by the trend line. Citi gets a larger ridership in the summer, so they need to stock more bikes at different stations to reduce individual bike usage and maintainence costs.
 
 
-### Does the ridership speed differ between months? 
+### Does the ridership distance differ between months? 
 ```{r}
 citisample %>%
   group_by(month) %>%
@@ -250,3 +250,5 @@ citisample %>%
             speed = dist/dur) %>%
   ggplot(aes(x=month, y = dist, fill = count)) + geom_col() +labs(y="Distance", title = "Avg Distance each Month" )
 ```
+
+This graph shows how the average distance of riders differs by month. This is similar to the previous graph, in that riders tend to ride for a longer distance in the summer months, which are warmer, and shorter in the colder months. Again, this creates the issue that Citibike needs to consider reducing bike supply in the winter months and increasing bike supply in the summer months, as more distance creates more wear and tear so more bikes would be optimal to ensure there are enough bikes to satisfy demand. 
