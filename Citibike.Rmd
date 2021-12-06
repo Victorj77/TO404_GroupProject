@@ -180,9 +180,9 @@ leaflet(bike_surplus_10) %>%
 
 
 
-
 ## Bike Usage 
-### BikeID
+### Bike ID
+### Top 10 Most Used Bikes
 ```{r}
 topbikes <- citisample %>%
   group_by(bikeid) %>%
