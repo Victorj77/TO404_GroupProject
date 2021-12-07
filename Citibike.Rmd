@@ -172,7 +172,6 @@ leaflet(bike_deficit_10) %>%
 surp_icon <- makeIcon("/Applications/Junior/TO_404Group Project/myrepo/green_bike.png", iconWidth = 24, iconHeight =32)
 bike_surplus_10<-arrange(bike_deficit, -deficit)[1:10,]
 
-str(bike_surplus_10)
 
 leaflet(bike_surplus_10) %>% 
   addTiles() %>%
@@ -180,7 +179,9 @@ leaflet(bike_surplus_10) %>%
 
 ```
 
-This map marks the top 10 stations with either a surplus or deficit. On each marker you can also see the amount for that station. 
+This map marks the top 10 stations with either a surplus or deficit. On each marker you can also see the amount for that station. The station of interest would be North Moore St & Greenwich st which has the largest deficit at -123. The station with the highest surplus would E 13 st and Ave A with  147 bikes. 
+Looking at the maps shows that the top stations with deficits are in the midlower half of Manhattan. The top station with surplus are shift to the right in the north east part of Manhattan. Management should consider understanding the moment of bikes and transport bikes back to the western side where there is a deficit. 
+
 
 ## Bike Usage 
 ### Bike ID
