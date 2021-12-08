@@ -105,6 +105,18 @@ ggplot(citisample, aes(x=month, fill = gender)) + geom_bar(position=position_dod
 ggplot(citisample, aes(x=usertype)) + geom_bar(position=position_dodge()) +labs( title = "Subscriber v. Customer amount of rides in 2019")
 ```
 
+```{r}
+citisample %>%
+  group_by(numWeekday) %>%
+  summarize(count = n(),
+            dist = mean(distmeters, na.rm = TRUE),
+            dur = mean(tripduration, na.rm = TRUE),
+            speed = dist/dur) %>%
+  ggplot(aes(x=numWeekday, y = dur/60, fill = count)) + geom_col() +labs(y="Ride duration in Minutes", x = "", title = "Avg trip duration each day" )
+```
+
+
+
 
 
 ## Assymetric Traffic 
