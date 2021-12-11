@@ -8,9 +8,12 @@
 #
 
 
-library(shiny)
+
+library(geosphere)
+library(lubridate)
 library(ggplot2)
 library(dplyr)
+library(knitr)
 library(leaflet)
 
 citi <- read.csv("citibike.csv", stringsAsFactors = FALSE)
@@ -85,6 +88,13 @@ combined_gender %>%
             speed = dist/dur) %>%
   ggplot(aes(x=month, y = count, fill = count)) + geom_col()
 
+topbikes <- citisample %>%
+  group_by(start.station.name) %>%
+  summarize(count=n()) %>%
+  arrange(desc(count)) %>%
+  top_n(n=10)
+topbikes
+
 
 
 # Define UI for application that draws a histogram
@@ -93,7 +103,7 @@ ui <- (fluidPage(
     sidebarLayout(
         sidebarPanel(
             selectInput("start.station.name", "Start station name",
-                        choices = c("Pershing Square North", "Pershing Square South", "E 41 St & Madison Ave", "E 47 St & Park Ave"))
+                        choices = c(topbikes))
         ),
         mainPanel(plotOutput("coolplot"),plotOutput("dayplot"),plotOutput("tavgplot"),
                   br(), br(),
