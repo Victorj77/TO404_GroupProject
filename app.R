@@ -134,7 +134,7 @@ server <- (function(input, output) {
         #end.station.name == input$end.station.name
       )
     ggplot(filtered, aes(x = dayid, fill = usertype)) +
-      geom_bar()
+      geom_bar(position = "dodge")
   })
   output$tavgplot<- renderPlot({
     filtered <-
@@ -143,8 +143,8 @@ server <- (function(input, output) {
         start.station.name == input$start.station.name#,
         #end.station.name == input$end.station.name
       )
-    ggplot(filtered, aes(x = TAVG, fill = usertype)) +
-      geom_histogram()
+    ggplot(filtered, aes(x = TAVG,y=distmeters, fill = usertype)) +
+      geom_col()
   })
 }
 )
