@@ -124,7 +124,7 @@ server <- (function(input, output) {
         #end.station.name == input$end.station.name
       )
     ggplot(filtered, aes(x = starttime, fill = usertype)) +
-      geom_histogram()
+      geom_histogram(position = "dodge")
   })
   output$dayplot <- renderPlot({
     filtered <-
@@ -140,11 +140,12 @@ server <- (function(input, output) {
     filtered <-
       combined_gender %>%
       filter(
-        start.station.name == input$start.station.name#,
+        start.station.name == input$start.station.name
+        #,
         #end.station.name == input$end.station.name
-      )
-    ggplot(filtered, aes(x = TAVG,y=distmeters, fill = usertype)) +
-      geom_col()
+      ) 
+    ggplot(filtered, aes(x = TAVG,y=distmeters)) +
+      geom_point() + geom_smooth()
   })
 }
 )
