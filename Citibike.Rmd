@@ -223,10 +223,12 @@ citisample %>% ggplot(aes(x=starthour,fill=factor(numWeekday))) + geom_density(a
 We looked at hourly distribution of rides since we believe that it is valuable information for Citibike in the cases they need live data on the conditions of bikes and when they can expect a lot of usage by both subscribers and customers. We observed weekday peeks during Morning Rush (8-9am) and Afternoon Rush (5-6pm)
 
 ## Weather 
+### How does the average temperature affect the distance rode?
 
 ```{r}
 ggplot(combined_gender, aes(x = TAVG, y = dist)) + geom_point(size = 2, alpha = 0.5, color = "yellowgreen") + geom_smooth(color = "darkgreen") + ylim(0,3000) 
 ```
+It seems until about 75 degrees Fahrenheit, distance rode increases, meaning people prefer to ride the CitiBike when it is not swelteringly warm. This could be because they do not want to be sweaty in their nicer clothes for work.
 
 
 ### How does the amount of precipitation affect the distance rode?
@@ -241,6 +243,8 @@ combined_gender %>%
   ggplot(aes(x = PRCP,y = dist)) + geom_point() + geom_smooth()
 
 ```
+
+As precipitation increases there is a weak reduction in distance rode on a Citibike. This makes sense as most users of Citibikes are commuters and one-day users are likely more sensitive to the amount of rain as they are more likely to be tourists.
 
 ### Relationship between average temperature and distance
 ```{r}
@@ -268,3 +272,16 @@ citisample %>%
 ```
 
 This graph shows how the average distance of riders differs by month. This is similar to the previous graph, in that riders tend to ride for a longer distance in the summer months, which are warmer, and shorter in the colder months. Again, this creates the issue that Citibike needs to consider reducing bike supply in the winter months and increasing bike supply in the summer months, as more distance creates more wear and tear so more bikes would be optimal to ensure there are enough bikes to satisfy demand. 
+
+
+
+
+## Conclusion and Key actionable Insights & Recommendations
+
+### Recommendation 1
+
+The idea of our business solution here is to even out the distribution of bikes across NYC, and hopefully take some bikes from stations with surplus and give them to the stations with deficits. Additionally, in order to assist with the peaks of when customers are using CitiBikes, specifically rush hours at 9 AM and 5 PM when the workday begins and ends, customers riding bikes right before those times, at 8 AM and 4 PM per se, would be offered credit to end their rides at stations that usually face deficits during rush hour peaks. Ideally, this would help CitiBike better manage the peaks when they face the most business as well as the most issues. 
+
+### Recommendation 2
+
+Since subscribers are our main target audience, providing exclusive benefits for these individuals will only further promote Citibike’s services. One example of this is creating a dashboard on its app that allows subscribers to see data about rush hour in real time and providing them with an option to reserve a bike at the nearest station up to 30 minutes before the scheduled time. Since we identified that subscribers who use the services use it as a mode of transportation to and from their jobs, we believe this exclusive benefit will encourage other commuters to look into biking as a more healthy and viable alternative.

@@ -99,7 +99,7 @@ topbikes
 
 # Define UI for application that draws a histogram
 ui <- (fluidPage(
-    titlePanel("CitiBike Data"),
+    titlePanel("CitiBike Data; Examining the demand inelasticity of 10 stations with the Highest Bike Deficits"),
     sidebarLayout(
         sidebarPanel(
             selectInput("start.station.name", "Start station name",
@@ -124,7 +124,7 @@ server <- (function(input, output) {
         #end.station.name == input$end.station.name
       )
     ggplot(filtered, aes(x = starttime, fill = usertype)) +
-      geom_histogram(position = "dodge")
+      geom_histogram(position = "dodge") + xlab("Date started") + ylab("Number of Rides")
   })
   output$dayplot <- renderPlot({
     filtered <-
@@ -134,7 +134,7 @@ server <- (function(input, output) {
         #end.station.name == input$end.station.name
       )
     ggplot(filtered, aes(x = dayid, fill = usertype)) +
-      geom_bar(position = "dodge")
+      geom_bar(position = "dodge") + xlab("Type of Day") + ylab("Number of Rides")
   })
   output$tavgplot<- renderPlot({
     filtered <-
@@ -145,7 +145,7 @@ server <- (function(input, output) {
         #end.station.name == input$end.station.name
       ) 
     ggplot(filtered, aes(x = TAVG,y=distmeters)) +
-      geom_point() + geom_smooth()
+      geom_point() + geom_smooth() + ylab("Distance driven from station in Meters") + xlab("Average Temperature in degrees Fahrenheit")
   })
 }
 )
