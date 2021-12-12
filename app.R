@@ -8,9 +8,13 @@
 #
 
 
-library(shiny)
+
+library(geosphere)
+library(lubridate)
 library(ggplot2)
 library(dplyr)
+library(knitr)
+library(leaflet)
 
 citi <- read.csv("citibike.csv", stringsAsFactors = FALSE)
 citi$X <- NULL
@@ -65,6 +69,32 @@ weather$STATION <- NULL
 weather$NAME <- NULL
 weather$DATE <- as.Date(weather$DATE, format= "%m/%d/%Y")
 weather$TAVG <- (weather$TMAX + weather$TMIN)/2
+combined_gender <- merge(citi, weather, by.x = "day", by.y = "DATE")
+
+#Formatting data
+combined_gender %>%
+  group_by(starthour) %>%
+  summarize(count = n(),
+            dist = mean(distmeters, na.rm = TRUE),
+            dur = mean(tripduration, na.rm = TRUE),
+            speed = dist/dur) %>%
+  ggplot(aes(x=starthour, y = count, fill = count)) + geom_col()
+
+combined_gender %>%
+  group_by(month) %>%
+  summarize(count = n(),
+            dist = mean(distmeters, na.rm = TRUE),
+            dur = mean(tripduration, na.rm = TRUE),
+            speed = dist/dur) %>%
+  ggplot(aes(x=month, y = count, fill = count)) + geom_col()
+
+topbikes <- citisample %>%
+  group_by(start.station.name) %>%
+  summarize(count=n()) %>%
+  arrange(desc(count)) %>%
+  top_n(n=10)
+topbikes
+
 
 
 # Define UI for application that draws a histogram
@@ -73,9 +103,9 @@ ui <- (fluidPage(
     sidebarLayout(
         sidebarPanel(
             selectInput("start.station.name", "Start station name",
-                        choices = c("Pershing Square North", "Pershing Square South", "E 41 St & Madison Ave", "E 47 St & Park Ave"))
+                        choices = c(topbikes))
         ),
-        mainPanel(plotOutput("coolplot"),
+        mainPanel(plotOutput("coolplot"),plotOutput("dayplot"),plotOutput("tavgplot"),
                   br(), br(),
                   tableOutput("results"))
     )
@@ -86,15 +116,36 @@ list(citi$start.station.name)
 
 # Define server logic required to draw a histogram
 server <- (function(input, output) {
-    output$coolplot <- renderPlot({
-        filtered <-
-            citi %>%
-            filter(
-                start.station.name == input$start.station.name
-            )
-        ggplot(filtered, aes(x = starttime)) +
-            geom_histogram()
-    })
+  output$coolplot <- renderPlot({
+    filtered <-
+      combined_gender %>%
+      filter(
+        start.station.name == input$start.station.name#,
+        #end.station.name == input$end.station.name
+      )
+    ggplot(filtered, aes(x = starttime, fill = usertype)) +
+      geom_histogram()
+  })
+  output$dayplot <- renderPlot({
+    filtered <-
+      combined_gender %>%
+      filter(
+        start.station.name == input$start.station.name#,
+        #end.station.name == input$end.station.name
+      )
+    ggplot(filtered, aes(x = dayid, fill = usertype)) +
+      geom_bar()
+  })
+  output$tavgplot<- renderPlot({
+    filtered <-
+      combined_gender %>%
+      filter(
+        start.station.name == input$start.station.name#,
+        #end.station.name == input$end.station.name
+      )
+    ggplot(filtered, aes(x = TAVG, fill = usertype)) +
+      geom_histogram()
+  })
 }
 )
 
