@@ -15,7 +15,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_chunk$set(cache = TRUE)
 ```
-```{r}
+```{r, cache=TRUE}
 library(tidyverse)
 library(gganimate)
 library(geosphere)
@@ -33,6 +33,7 @@ library(leaflet)
 #Start New RMD File for Analysis
 #Reading the new csv file 
 citisample <- read.csv("citibike.csv")
+str(citisample)
 citisample$X <- NULL
 citisample$start.station.id <- as.factor(citisample$start.station.id)
 citisample$end.station.id <- as.factor(citisample$end.station.id)
@@ -168,7 +169,7 @@ leaflet(bike_deficit_worststations) %>%
                                 abs(bike_deficit_worststations$deficit)), 
                    radius = abs(bike_deficit_worststations$deficit)/5, color = ifelse(bike_deficit_worststations$deficit>0, "red", "green"))
 ```
-This map shows the top 10% problemtic stations. 
+This map shows the top 10% problematic stations. 
 
 ```{r}
 bike_deficit_10<-arrange(bike_deficit, (deficit))[1:10,]
