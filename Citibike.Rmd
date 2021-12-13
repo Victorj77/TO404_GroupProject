@@ -181,14 +181,14 @@ This map shows the top 10% problematic stations.
 bike_deficit_10<-arrange(bike_deficit, (deficit))[1:10,]
 
 
-def_icon <- makeIcon("/Applications/Junior/TO_404Group Project/myrepo/red_bike.png", iconWidth = 24, iconHeight =32)
+def_icon <- makeIcon("red_bike.png", iconWidth = 24, iconHeight =32)
 
 leaflet(bike_deficit_10) %>% 
   addTiles() %>%
   addMarkers(lng = ~longitude, lat = ~latitude, label=paste(bike_deficit_10$station,bike_deficit_10$deficit), icon = def_icon)
 
 
-surp_icon <- makeIcon("/Applications/Junior/TO_404Group Project/myrepo/green_bike.png", iconWidth = 24, iconHeight =32)
+surp_icon <- makeIcon("green_bike.png", iconWidth = 24, iconHeight =32)
 bike_surplus_10<-arrange(bike_deficit, -deficit)[1:10,]
 
 
