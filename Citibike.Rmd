@@ -1,7 +1,7 @@
 ---
 title: "Citibike"
 author: "Tarun Bhadri, Ben Boeke, Taeyoung Justin Yun, Victor Manuel Jauregui-Tapia, Vincent Qu Dee"
-date: "11/30/2021"
+date: "12/12/2021"
 output: 
   html_document:
     toc: true
