@@ -93,6 +93,12 @@ citiday <- citisample %>%
 
 combined_gender <- merge(citiday, weather, by.x = "day", by.y = "DATE")
 ```
+
+## Overview 
+
+The goal of this report is to increase citi bike usage across the city. To accomplish this goal we must understand trends in the data and how it effects bike usage. To start we have provided some context on the citibike data. Next, we will analyze the impact of asymmetric traffic on bike station usage. We will dive deeper into bike usage to understand maintenance schedules. Finally, we analyze the impact of weather on bike usage. With these insights we will be able to provide citibike with recommendations to increase usage across the city. 
+
+
 ## Citi Bike Data Context 
 ```{r}
 ggplot(citisample, aes(x=month)) + geom_bar() +labs( title = "Amount of Rides in 2019 per month")
